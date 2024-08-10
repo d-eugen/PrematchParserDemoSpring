@@ -18,5 +18,4 @@ public class League {
     private int outright;
     private boolean top;
     private int topOrder;
-    private boolean hasZeroMarginEvents;
 }

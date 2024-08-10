@@ -53,10 +53,16 @@ public class SportService {
                 .collect(Collectors.toList());
     }
 
-    public List<Event> fetchFilteredEvents(long leagueId) throws Exception {
+    public List<Event> fetchAllEvents(long leagueId) throws Exception {
         EventResponse eventResponse = fetchEventsData(leagueId);
-        return eventResponse.getData().stream()
-                .filter(event -> !"outright".equalsIgnoreCase(event.getBetline()))
+        return eventResponse.getData();
+    }
+
+    public List<Event> fetchTopMatches(long leagueId, int limit) throws Exception {
+        return fetchAllEvents(leagueId).stream()
+                .filter(event -> "prematch".equalsIgnoreCase(event.getBetline())) // TODO: define possible betlines ["outright", "prematch", ...]
+                .sorted(Comparator.comparingLong(Event::getKickoff)) // Sort by kickoff to get the closest event on top (assuming all events are in future)
+                .limit(limit)
                 .collect(Collectors.toList());
     }
 

@@ -15,10 +15,6 @@ public class Runner {
     private long id;
     private String name;
     private boolean open;
-    private int r;
-    private int c;
-    private List<String> tags;
     private double price;
     private String priceStr;
-    private String handicap;
 }
