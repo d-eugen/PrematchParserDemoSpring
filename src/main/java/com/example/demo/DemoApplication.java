@@ -3,12 +3,14 @@ package com.example.demo;
 import com.example.demo.model.SportType;
 import com.example.demo.report.TopLeagueMarketsReport;
 import com.example.demo.utils.PerformanceUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import javax.net.ssl.SSLHandshakeException;
 
+@Slf4j
 @SpringBootApplication
 public class DemoApplication {
 
@@ -20,18 +22,18 @@ public class DemoApplication {
     }
 
     private static void printTopLeaguesMarketReport(ApplicationContext context) {
-        System.out.println("Printing of Top League's Market Report started...");
+        log.info("Printing of Top League's Market Report started...");
         TopLeagueMarketsReport report = context.getBean(TopLeagueMarketsReport.class);
         for (SportType sportType: SportType.values()) {
             try {
                 report.printReportToConsole(sportType);
             } catch (SSLHandshakeException e) {
-                System.out.println("Seems site is unreachable, try to use VPN. " + e.getMessage());
+                log.error("Seems site is unreachable, try to use VPN. " + e.getMessage());
                 break;
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        System.out.println("Printing of Top League's Market Report finished.");
+        log.info("Printing of Top League's Market Report finished.");
     }
 }

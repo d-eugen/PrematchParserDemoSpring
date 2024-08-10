@@ -17,11 +17,6 @@ public class TopLeagueMarketsReport {
     private static final String INDENT = "   ";
     private static final int TOP_MATCHES_LIMIT = 2;
 
-    // Hundreds of markets is inconvenient for testing
-    // TODO: remove or set to Zero limiters
-    private static final int MARKETS_LIMIT_FOR_READABILITY = 3;
-    private static final int RUNNERS_LIMIT_FOR_READABILITY = 3;
-
     private final SportService sportService;
 
     @Autowired
@@ -40,17 +35,12 @@ public class TopLeagueMarketsReport {
                 EventDetailsResponse eventDetails = sportService.fetchEventDetails(event.getId());
                 List<Market> markets = eventDetails.getMarkets();
 
-                int marketCount = 0;
                 for (Market market : markets) {
                     printIndented(3, market.getName());
 
-                    int runnerCount = 0;
                     for (Runner runner : market.getRunners()) {
                         printIndented(4, runner.getName(), runner.getPrice(), runner.getId());
-                        if (++runnerCount >= RUNNERS_LIMIT_FOR_READABILITY) break;
                     }
-
-                    if (++marketCount >= MARKETS_LIMIT_FOR_READABILITY) break;
                 }
             }
         }
